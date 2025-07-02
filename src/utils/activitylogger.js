@@ -25,7 +25,6 @@ const logActivity = async (ActivityLog, activityData) => {
             if (activityData.metadata) {
             activity.metadata = activityData.metadata;
             }
-        
         await activity.save();
         return activity;
     } catch (error) {
