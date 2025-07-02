@@ -2,7 +2,7 @@ const Attendance = require('../models/Attendance')
 const Employee = require('../models/Employee')
 const { asyncHandler,AppError } = require('../middleware/errorMiddleware')
 const Lead = require('../models/Lead')
-const { logActivity, ACTIVITY_TYPES } = require('../utils/activityLogger');
+const { logActivity, ACTIVITY_TYPES } = require("../utils/activitylogger");
 const ActivityLog = require("../models/ActivityLog")
 const bcrypt = require('bcryptjs');
 
