@@ -315,7 +315,8 @@ const getEmployeeSchedule = asyncHandler(async (req, res) => {
     date: lead.appointment.date.toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
-      year: '2-digit'
+      year: '2-digit',
+      timeZone: 'Asia/Kolkata'
     }),
     time: "Call",
     callType: lead.callType || 'cold_call',
@@ -500,7 +501,8 @@ const getEmployeeScheduleByType = asyncHandler(async (req, res) => {
     date: lead.appointment.date.toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
-      year: '2-digit'
+      year: '2-digit',
+      timeZone: 'Asia/Kolkata'
     }),
     time: "Call",
     callType: lead.callType || 'cold_call',
@@ -602,7 +604,8 @@ const searchEmployeeSchedule = asyncHandler(async (req, res) => {
     date: lead.appointment.date.toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
-      year: '2-digit'
+      year: '2-digit',
+      timeZone: 'Asia/Kolkata'
     }),
     time: 'call',
     callType: lead.callType || 'cold_call',
