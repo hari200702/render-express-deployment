@@ -3,7 +3,7 @@ const Attendance = require('../models/Attendance');
 const ActivityLog = require('../models/ActivityLog');
 const { generateToken } = require('../middleware/authMiddleware');
 const { asyncHandler, AppError } = require('../middleware/errorMiddleware');
-const { logActivity, ACTIVITY_TYPES } = require('../utils/activityLogger');
+const { logActivity, ACTIVITY_TYPES } = require('../utils/activitylogger');
 const bcrypt = require('bcryptjs');
 
 

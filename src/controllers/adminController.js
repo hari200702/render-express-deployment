@@ -10,7 +10,7 @@ const {
     assignUnassignedLeadsToNewEmployee,
     reassignLeadsOnEmployeeDeletion 
 } = require('../utils/leadAssignment');
-const { logActivity, ACTIVITY_TYPES } = require('../utils/activityLogger');
+const { logActivity, ACTIVITY_TYPES } = require('../utils/activitylogger');
 
 const multer = require('multer');
 const csv = require('csv-parser');
