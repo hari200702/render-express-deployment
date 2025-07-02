@@ -18,7 +18,7 @@ const app = express()
 
 
 app.use(cors({
-  origin: ['https://canvocrmmobile.netlify.app','https://canvocrm.netlify.app'],
+  origin: ['https://canvocrmmobile.netlify.app','https://canvocrm.netlify.app','http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
