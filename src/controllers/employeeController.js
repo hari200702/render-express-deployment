@@ -20,10 +20,12 @@ const getEmployeeHome = asyncHandler(async (req, res) => {
         checkInTime = employee.lastLogin.toLocaleTimeString('en-US', { 
             hour: '2-digit', 
             minute: '2-digit',
-            hour12: true 
+            hour12: true,
+            timeZone: 'Asia/Kolkata'
         });
     }
 
+    console.log(checkInTime)
     const attendanceWithBreaks = await Attendance.find({
         employeeId: employeeId,
         'breaks.0': { $exists: true }
@@ -39,17 +41,20 @@ const getEmployeeHome = asyncHandler(async (req, res) => {
                     break: brk.startTime.toLocaleTimeString('en-US', { 
                         hour: '2-digit', 
                         minute: '2-digit',
-                        hour12: true 
+                        hour12: true ,
+                        timeZone: 'Asia/Kolkata' 
                     }),
                     ended: brk.endTime ? brk.endTime.toLocaleTimeString('en-US', { 
                         hour: '2-digit', 
                         minute: '2-digit',
-                        hour12: true 
+                        hour12: true,
+                        timeZone: 'Asia/Kolkata' 
                     }) : 'Ongoing',
                     date: record.date.toLocaleDateString('en-US', { 
                         month: '2-digit', 
                         day: '2-digit', 
-                        year: '2-digit' 
+                        year: '2-digit',
+                        timeZone: 'Asia/Kolkata' 
                     })
                 });
             }
@@ -58,13 +63,15 @@ const getEmployeeHome = asyncHandler(async (req, res) => {
     }
     const recentActivity = await getEmployeeActivitySummary(employeeId, 3);
 
-    const hour = new Date().getHours();
+    const nowInIST = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const hourIST = new Date(nowInIST).getHours();
+
     let greeting = '';
-    if (hour >= 0 && hour < 12) {
+    if (hourIST >= 0 && hourIST < 12) {
       greeting = 'Good Morning';
-    } else if (hour >= 12 && hour < 16) {
+    } else if (hourIST >= 12 && hourIST < 16) {
       greeting = 'Good Afternoon';
-    } else if (hour >= 16 && hour < 19) {
+    } else if (hourIST >= 16 && hourIST < 19) {
       greeting = 'Good Evening';
     } else {
       greeting = 'Good Night';
