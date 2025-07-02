@@ -341,7 +341,9 @@ const createEmployee = asyncHandler(async (req, res) => {
     
     const admin = await Admin.findOne();
     
-    const defaultPassword = email.split('@')[0];
+    const defaultPassword = await bcrypt.hash(email.split('@')[0],10);
+
+    defaultPassword
     
     const employee = await Employee.create({
         firstName,
