@@ -365,10 +365,26 @@ const createEmployee = asyncHandler(async (req, res) => {
         assignmentResult = await assignUnassignedLeadsToNewEmployee(employee, unassignedLeads);
         
         for (const assignment of assignmentResult.assignments) {
-            await Lead.findByIdAndUpdate(assignment.leadId, {
+            if(assignment.assignedTo){
+                await Lead.findByIdAndUpdate(assignment.leadId, {
                 assignedTo: assignment.assignedTo,
                 assignedDate: new Date()
             });
+
+            await logActivity(ActivityLog, {
+                action: ACTIVITY_TYPES.LEAD_ASSIGNED,
+                performedBy: admin._id,
+                performerModel: 'Admin',
+                targetId: assignment.assignedTo,
+                targetType: 'Employee',
+                employeeDetails: {
+                id: assignment.assignedTo,
+                name: assignment.employeeName
+      }
+    });
+
+            }
+            
         }
     }
 
@@ -447,6 +463,8 @@ const deleteEmployee = asyncHandler(async (req, res) => {
         throw new AppError('Employee not found', 404);
     }
 
+    const admin = await Admin.findOne();
+
     const openLeads = await Lead.find({
         assignedTo: id,
         leadStatus: 'open'
@@ -468,6 +486,19 @@ const deleteEmployee = asyncHandler(async (req, res) => {
             await Lead.findByIdAndUpdate(assignment.leadId, {
                 assignedTo: assignment.assignedTo,
                 assignedDate: assignment.assignedTo ? new Date() : null
+            });
+
+            if (assignment.assignedTo) {
+                await logActivity(ActivityLog, {
+                    action: ACTIVITY_TYPES.LEAD_ASSIGNED,
+                    performedBy: admin._id,
+                    performerModel: 'Admin',
+                    targetId: assignment.assignedTo,
+                    targetType: 'Employee',
+                    employeeDetails: {
+                        id: assignment.assignedTo,
+                        name: assignment.employeeName
+                }
             });
         }
     }
