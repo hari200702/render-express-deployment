@@ -307,8 +307,7 @@ const getEmployees = asyncHandler(async (req, res) => {
         employees.map(async (employee) => {
             const [assignedLeads, closedLeads] = await Promise.all([
                 Lead.countDocuments({ 
-                    assignedTo: employee._id, 
-                    leadStatus: 'open' 
+                    assignedTo: employee._id
                 }),
                 Lead.countDocuments({ 
                     assignedTo: employee._id, 
