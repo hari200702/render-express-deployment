@@ -31,10 +31,10 @@ const employeeSchema = new mongoose.Schema({
         required: [true, 'Location is required'],
         trim: true
     },
-    languages: [{
+    languages: {
         type: String,
         trim: true
-    }],
+    },
     role: {
         type: String,
         default: 'employee',
