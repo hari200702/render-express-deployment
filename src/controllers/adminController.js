@@ -288,8 +288,6 @@ const getLeads = asyncHandler(async (req, res) => {
             assignedEmployee: lead.assignedTo
                 ? `${lead.assignedTo.firstName} ${lead.assignedTo.lastName}`
                 : 'Unassigned',
-            location:lead.location,
-            language:lead.language
 
         };
     });
