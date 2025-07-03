@@ -643,7 +643,7 @@ const searchEmployeeSchedule = asyncHandler(async (req, res) => {
       year: '2-digit',
       timeZone: 'Asia/Kolkata'
     }),
-    time: 'call',
+    time: 'Call',
     callType: lead.callType || 'cold_call',
     appointmentDateTime: lead.appointment.date
   }));
