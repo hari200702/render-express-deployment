@@ -88,12 +88,13 @@ const assignUnassignedLeadsToNewEmployee = async (employee, unassignedLeads) => 
         const languageMatch = employee.languages && 
                             lead.language && 
                             employee.languages.toLowerCase() === lead.language.toLowerCase();
-                            
+
         if (locationMatch || languageMatch) {
             assignments.push({
                 leadId: lead._id,
                 leadName: lead.name,
                 assignedTo: employee._id,
+                employeeName: `${employee.firstName} ${employee.lastName}`,
                 reason: locationMatch && languageMatch ? 'Location and Language match' :
                         locationMatch ? 'Location match' : 'Language match'
             });

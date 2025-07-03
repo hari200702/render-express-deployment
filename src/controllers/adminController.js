@@ -378,8 +378,8 @@ const createEmployee = asyncHandler(async (req, res) => {
                 targetId: assignment.assignedTo,
                 targetType: 'Employee',
                 employeeDetails: {
-                id: assignment.assignedTo,
-                name: assignment.employeeName
+                    id: assignment.assignedTo,
+                    name: assignment.employeeName
       }
     });
 
