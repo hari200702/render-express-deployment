@@ -26,9 +26,7 @@ const assignLeadsToEmployees = async (leads, employees) => {
             
             const languageMatch = employee.languages && 
                                 lead.language && 
-                                employee.languages.map(l => l.toLowerCase())
-                                    .includes(lead.language.toLowerCase());
-            
+                                employee.languages.toLowerCase() === lead.language.toLowerCase();
             
             if (locationMatch || languageMatch) {
                 assignments.push({
@@ -89,9 +87,8 @@ const assignUnassignedLeadsToNewEmployee = async (employee, unassignedLeads) => 
         
         const languageMatch = employee.languages && 
                             lead.language && 
-                            employee.languages.map(l => l.toLowerCase())
-                                .includes(lead.language.toLowerCase());
-
+                            employee.languages.toLowerCase() === lead.language.toLowerCase();
+                            
         if (locationMatch || languageMatch) {
             assignments.push({
                 leadId: lead._id,
