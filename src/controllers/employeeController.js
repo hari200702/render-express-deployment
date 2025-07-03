@@ -524,7 +524,7 @@ const searchEmployeeLeads = asyncHandler(async (req, res) => {
   if (!q || q.trim() === '') {
     const leads = await Lead.find({ assignedTo: employeeId })
       .sort({ assignedDate: -1 })
-      .select('name email status leadStatus assignedDate appoin');
+      .select('name email status leadStatus assignedDate appointment');
 
     const formattedLeads = leads.map(lead => ({
       _id: lead._id,
@@ -539,7 +539,14 @@ const searchEmployeeLeads = asyncHandler(async (req, res) => {
     return res.json({ success: true, count: formattedLeads.length, data: formattedLeads });
   }
 
-  const regex = new RegExp(q, 'i');
+  
+  let regex = new RegExp(q, 'i');
+
+  
+  if (/^\d{1,2}$/.test(q)) {
+    const padded = q.padStart(2, '0');
+    regex = new RegExp(`-${padded}`, 'i');
+  }
 
   const leads = await Lead.find({
     assignedTo: employeeId,
@@ -550,7 +557,16 @@ const searchEmployeeLeads = asyncHandler(async (req, res) => {
       { status: regex },
       { leadStatus: regex },
       { location: regex },
-      { language: regex }
+      { language: regex },
+      {
+        $expr: {
+          $regexMatch: {
+            input: { $dateToString: { format: '%Y-%m-%d', date: '$assignedDate' } },
+            regex: regex.source,
+            options: 'i'
+          }
+        }
+      }
     ]
   })
     .sort({ assignedDate: -1 })
@@ -569,6 +585,8 @@ const searchEmployeeLeads = asyncHandler(async (req, res) => {
   res.json({ success: true, count: formattedLeads.length, data: formattedLeads });
 });
 
+
+
 const searchEmployeeSchedule = asyncHandler(async (req, res) => {
   const { employeeId } = req;
   const { q } = req.query;
@@ -581,14 +599,32 @@ const searchEmployeeSchedule = asyncHandler(async (req, res) => {
   let searchQuery = baseQuery;
 
   if (q && q.trim() !== '') {
-    const regex = new RegExp(q, 'i');
+    let regex = new RegExp(q, 'i');
+
+
+    if (/^\d{1,2}$/.test(q)) {
+      const padded = q.padStart(2, '0');
+      regex = new RegExp(`-${padded}`, 'i'); 
+    }
+
     searchQuery = {
       ...baseQuery,
       $or: [
         { name: regex },
         { phone: regex },
         { callType: regex },
-        { 'appointment.timeSlot': regex }
+        { 'appointment.timeSlot': regex },
+        {
+          $expr: {
+            $regexMatch: {
+              input: {
+                $dateToString: { format: '%Y-%m-%d', date: '$appointment.date' }
+              },
+              regex: regex.source,
+              options: 'i'
+            }
+          }
+        }
       ]
     };
   }
@@ -618,6 +654,7 @@ const searchEmployeeSchedule = asyncHandler(async (req, res) => {
     data: formatted
   });
 });
+
 
 
 // Helper function for employee activities
