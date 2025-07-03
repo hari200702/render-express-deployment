@@ -499,7 +499,8 @@ const deleteEmployee = asyncHandler(async (req, res) => {
                         id: assignment.assignedTo,
                         name: assignment.employeeName
                 }
-            });
+            })
+        };
         }
     }
 
