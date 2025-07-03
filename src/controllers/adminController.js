@@ -323,7 +323,9 @@ const getEmployees = asyncHandler(async (req, res) => {
                 employeeId: `#${employee._id.toString().slice(-8).toUpperCase()}`,
                 assignedLeads,
                 closedLeads,
-                status: employee.isActive ? 'Active' : 'Deactive'
+                status: employee.isActive ? 'Active' : 'Deactive',
+                location:employee.location,
+                language:employee.languages
             };
         })
     );
